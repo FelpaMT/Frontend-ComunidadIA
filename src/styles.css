@@ -1,0 +1,802 @@
+/* =============================
+   PALETA INSPIRADA EN NEWSBREAK
+   ============================= */
+
+   :root {
+    --primary: #ff2e2e;            /* rojo estilo newsbreak */
+    --primary-light: #ff5959;
+    --primary-dark: #d92020;
+  
+    --bg: #f7f7f7;                 /* fondo general claro */
+    --bg-alt: #ffffff;             /* contenedores */
+    --card-bg: #ffffff;
+  
+    --text: #111111;               /* texto oscuro */
+    --text-muted: #616161;
+  
+    --border: #e5e5e5;
+    --border-radius: 10px;
+  
+    --shadow-sm: 0 2px 6px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+  }
+  
+  /* =============================
+     RESET
+     ============================= */
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--text);
+  }
+  
+  /* =============================
+     LINKS
+     ============================= */
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  /* =============================
+     APP SHELL / MAIN LAYOUT
+     ============================= */
+  
+  .app-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-content {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  .logo-start-page {
+    width: 100px;      /* puedes ajustarlo */
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; /* recorta el centro */
+    overflow: hidden;
+  }
+  /* =============================
+     CARD
+     ============================= */
+  
+  .card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* =============================
+     BOTONES
+     ============================= */
+  
+  .btn {
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background: var(--primary-dark);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  
+  .btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  
+  /* =============================
+     INPUTS
+     ============================= */
+  
+  .input,
+  .textarea,
+  .select {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.8rem;
+    background: #ffffff;
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  
+  .input:focus,
+  .textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+  
+  /* =============================
+     TEXT AREA
+     ============================= */
+  
+  .textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  
+  /* =============================
+     TITULOS
+     ============================= */
+  
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .page-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+  
+  /* =============================
+     GRID
+     ============================= */
+  
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  /* =============================
+     NAVBAR — ESTILO NEWSBREAK
+     ============================= */
+  
+  .navbar {
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  
+  .navbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .logo-navbar {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .nav-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .nav-link {
+    padding: 0.4rem 0.7rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  
+  .nav-link.active {
+    color: var(--primary);
+    background: rgba(255,46,46,0.12);
+  }
+  
+  /* =============================
+     STATUS MESSAGES
+     ============================= */
+  
+  .status {
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .status-success {
+    background: #e7fbee;
+    color: #167c2c;
+  }
+  
+  .status-error {
+    background: #fde8e8;
+    color: #c62828;
+  }
+  
+  .status-info {
+    background: #e8f0fe;
+    color: #1a56db;
+  }
+  
+  /* =============================
+     HTML VIEWER
+     ============================= */
+  
+  .html-viewer {
+    line-height: 1.65;
+    color: #222;
+  }
+  
+  .html-viewer p {
+    margin-bottom: 0.85rem;
+  }
+  
+  /* =============================
+     TOOLBAR EDITOR HTML
+     ============================= */
+  
+  .html-editor {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem;
+  }
+  
+  .html-editor-toolbar {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+  
+  .html-editor-toolbar button {
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: white;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  
+  .html-editor-toolbar button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  
+  /* =============================
+     PAGINACIÓN
+     ============================= */
+  
+  .pagination {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  /* ================================
+   LAYOUT AL ESTILO NEWSBREAK
+   ================================ */
+
+.newsbreak-shell {
+  background: var(--bg);
+  padding-top: 1rem;
+}
+
+.newsbreak-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+/* Columna principal */
+.newsbreak-main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Sidebar */
+.newsbreak-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.sidebar-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-card h3 {
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.sidebar-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-card li {
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Ocultar sidebar en móvil */
+@media (max-width: 900px) {
+  .newsbreak-container {
+    flex-direction: column;
+  }
+
+  .newsbreak-sidebar {
+    width: 100%;
+  }
+}
+
+/* ================================
+   NAVBAR ESTILO NEWSBREAK
+   ================================ */
+
+   .navbar {
+    position: sticky;
+    top: 0;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    z-index: 100;
+  }
+  
+  .navbar-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* IZQUIERDA */
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  
+  .logo-navbar {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+  
+  .nav-brand {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nav-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111;
+  }
+  
+  .nav-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  
+  /* DERECHA — LINKS */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .nav-link {
+    padding: 0.45rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  
+  .nav-link:hover {
+    background: rgba(255, 46, 46, 0.1);
+    color: var(--primary);
+  }
+  
+  .nav-link.active {
+    background: rgba(255, 46, 46, 0.14);
+    color: var(--primary);
+    font-weight: 600;
+  }
+  
+  /* Nombre del usuario */
+  .nav-username {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  
+  /* Logout estilo newsbreak */
+  .nav-logout {
+    border: none;
+    background: transparent;
+    color: var(--primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: 0.15s;
+  }
+  
+  .nav-logout:hover {
+    background: rgba(255, 46, 46, 0.12);
+  }
+  
+  /* ================================
+   NEWSFEED PAGE (HOME)
+   ================================ */
+
+.newsfeed {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Secciones tipo “cards limpias” estilo news */
+.newsfeed-section {
+  background: white;
+  border-radius: 8px;
+  padding: 1.8rem;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Título principal */
+.newsfeed-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 0.6rem;
+}
+
+/* Subtítulo explicación */
+.newsfeed-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 1.4rem;
+}
+
+/* Botones ordenados horizontalmente */
+.newsfeed-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Título de sección del feed */
+.newsfeed-subtitle-section {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+/* Loading */
+.newsfeed-loading {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Vacío */
+.newsfeed-empty {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Lista del feed */
+.newsfeed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+/* =====================================
+   NEWS CARD (PublicationCard)
+   ===================================== */
+
+   .news-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+  
+  .news-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  
+  /* Imagen miniatura */
+  .news-card-thumb {
+    width: 140px;
+    height: 90px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .news-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Placeholder si no hay imagen */
+  .news-card-thumb.placeholder {
+    background: #f3f3f3;
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 1.3rem;
+  }
+  
+  /* Contenido */
+  .news-card-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Metadatos */
+  .news-card-meta {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+  }
+  
+  /* Título de noticia */
+  .news-card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0.2rem 0 0.4rem;
+  }
+  
+  /* Extracto opcional */
+  .news-card-excerpt {
+    font-size: 0.92rem;
+    color: #444;
+    line-height: 1.4;
+  }
+  
+  /* Comportamiento responsivo */
+  @media (max-width: 700px) {
+    .news-card {
+      flex-direction: column;
+    }
+  
+    .news-card-thumb {
+      width: 100%;
+      height: 160px;
+    }
+  }
+  
+/* ======================================================
+   ARTICLE PAGE — NEWSBREAK STYLE
+   ====================================================== */
+
+   .article {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Loading & error */
+  .article-loading, .article-error {
+    padding: 2rem;
+    font-size: 1rem;
+    color: #444;
+  }
+  
+  /* Encabezado del artículo */
+  .article-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .article-meta {
+    display: flex;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  
+  .article-author {
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+  }
+  
+  .article-author:hover {
+    text-decoration: underline;
+  }
+  
+  /* Título */
+  .article-title {
+    font-size: 2rem;
+    margin: 0.6rem 0 1.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #111;
+  }
+  
+  /* Contenido */
+  .article-body {
+    margin-bottom: 2.2rem;
+  }
+  
+  /* ========================
+     COMENTARIOS
+     ======================== */
+  
+  .article-comments {
+    margin-top: 2rem;
+  }
+  
+  .comments-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .comments-empty {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  
+  /* Lista de comentarios */
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .comment-item {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .comment-meta {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+  }
+  
+  .comment-content {
+    font-size: 0.95rem;
+    color: #222;
+  }
+  
+  /* Formulario de comentario */
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1.4rem;
+  }
+  
+  /* Cada item como fila */
+.sidebar-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Título alineado a la izquierda */
+.sidebar-item-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex: 1;
+  text-align: left;
+}
+
+/* Fecha alineada a la derecha */
+.sidebar-item-date {
+  font-size: 0.78rem;
+  color: #777;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Hover */
+.sidebar-item-row:hover .sidebar-item-title {
+  color: var(--primary);
+}
+
+.sidebar-item-row:hover .sidebar-item-date {
+  color: var(--primary);
+}
+
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: always;
+}
+
+/* Evitar que Windows engrose el font-weight 400 */
+body {
+  font-weight: 400;
+}
+
+/* Evita bold sintético en Windows */
+* {
+  font-synthesis: none;
+}
