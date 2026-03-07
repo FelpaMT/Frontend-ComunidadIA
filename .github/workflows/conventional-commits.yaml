@@ -1,0 +1,76 @@
+name: Check PR title
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+jobs:
+  validate_title:
+    name: Pull Request conventional commit linter
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Check if branch requires validation
+        id: branch_check
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          if [[ "$BRANCH" == feature/* || "$BRANCH" == fix/* || "$BRANCH" == release/* || "$BRANCH" == hotfix/* || "$BRANCH" == backport/* ]]; then
+            echo "should_validate=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_validate=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout code
+        if: steps.branch_check.outputs.should_validate == 'true'
+        uses: actions/checkout@v4
+
+      - name: Evaluate title prefix
+        id: evaluate
+        if: steps.branch_check.outputs.should_validate == 'true'
+        shell: bash
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "Validating: $PR_TITLE"
+          STATUS=$(
+            echo "$PR_TITLE" | grep -qE '^(feat|docs|fix|chore|style|refactor|perf|test)(\([-a-z0-9]+\)): .+';
+            echo $?
+          )
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+
+      - name: Fail - title does not follow conventional commits
+        if: steps.branch_check.outputs.should_validate == 'true' && steps.evaluate.outputs.status != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          MESSAGE="❌ **Invalid PR title**
+
+          Please update the pull request title to follow conventional commit format:
+
+          \`\`\`
+          prefix(scope): summary
+          prefix(scope)!: summary (breaking change)
+          \`\`\`
+
+          Valid prefixes: \`feat\`, \`docs\`, \`fix\`, \`chore\`, \`style\`, \`refactor\`, \`perf\`, \`test\`
+
+          Scope should specify the affected area (e.g., auth, publications, feed, etc.).
+
+          Example: \`feat(publications): agrega paginación al feed principal\`
+
+          Use '!' for breaking changes.
+
+          See https://www.conventionalcommits.org/en/v1.0.0/"
+
+          gh pr comment ${{ github.event.pull_request.number }} --body "$MESSAGE"
+          exit 1
+
+      - name: Success
+        if: steps.branch_check.outputs.should_validate == 'false' || steps.evaluate.outputs.status == '0'
+        run: echo "✅ Title is valid or branch does not require validation."
