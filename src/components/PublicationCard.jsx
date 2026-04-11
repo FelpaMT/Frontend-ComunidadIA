@@ -8,8 +8,13 @@ export default function PublicationCard({ publication, onClick }) {
       style={{ padding: "1rem", cursor: "pointer" }}
       onClick={onClick}
     >
-      <div style={{ fontSize: "0.8rem", color: "#9ca3af" }}>
-        {created.toLocaleDateString()} · {publication.writer.nick_name}
+      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+        <span style={{ fontSize: "0.8rem", color: "#9ca3af" }}>
+          {created.toLocaleDateString()} · {publication.writer.nick_name}
+        </span>
+        {publication.category && (
+          <span className="publication-category">{publication.category.name}</span>
+        )}
       </div>
       <h3 style={{ marginTop: "0.4rem", fontSize: "1.05rem" }}>
         {publication.title}

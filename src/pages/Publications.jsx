@@ -12,10 +12,16 @@ export default function Publications() {
   const [page, setPage] = useState(1);
   const [nicknamePart, setNicknamePart] = useState("");
   const [titlePart, setTitlePart] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [categories, setCategories] = useState([]);
   const [status, setStatus] = useState({ type: "info", message: "" });
   const [loading, setLoading] = useState(true);
   const [noMore, setNoMore] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api.get("/api/publication/categories").then((res) => setCategories(res.data));
+  }, []);
 
   async function fetchPublications(newPage = 1, isSearch = false) {
     setLoading(true);
@@ -23,14 +29,20 @@ export default function Publications() {
     const offset = (newPage - 1) * LIMIT;
     try {
       let res;
-      if (isSearch && (nicknamePart || titlePart)) {
+      const hasSearchParams = nicknamePart || titlePart || categoryId;
+      if (isSearch && hasSearchParams) {
         res = await api.get("/api/publication/search", {
           params: {
             limit: LIMIT,
             offset,
             nickname_part: nicknamePart || undefined,
             title_part: titlePart || undefined,
+            category_id: categoryId || undefined,
           },
+        });
+      } else if (!isSearch && categoryId) {
+        res = await api.get("/api/publication", {
+          params: { limit: LIMIT, offset, category_id: categoryId },
         });
       } else {
         res = await api.get("/api/publication", {
@@ -62,7 +74,7 @@ export default function Publications() {
 
   function handlePageChange(newPage) {
     if (newPage < 1) return;
-    fetchPublications(newPage, !!(nicknamePart || titlePart));
+    fetchPublications(newPage, !!(nicknamePart || titlePart || categoryId));
   }
 
   return (
@@ -95,6 +107,21 @@ export default function Publications() {
               placeholder="Parte del título"
             />
           </div>
+          <div>
+            <label>Filtrar por categoría</label>
+            <select
+              className="select"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+            >
+              <option value="">Todas las categorías</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div style={{ gridColumn: "1 / -1" }}>
             <button className="btn btn-primary" type="submit">
               🔍 Buscar
@@ -106,6 +133,7 @@ export default function Publications() {
               onClick={() => {
                 setNicknamePart("");
                 setTitlePart("");
+                setCategoryId("");
                 fetchPublications(1, false);
               }}
             >

@@ -148,10 +148,16 @@ export default function EditPublication() {
   const [initialBlocks, setInitialBlocks] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const editorRef = useRef();
 
-  // ░░░ Cargar publicación
+  // ░░░ Cargar categorías y publicación
+  useEffect(() => {
+    api.get("/api/publication/categories").then((res) => setCategories(res.data));
+  }, []);
+
   useEffect(() => {
     async function fetchPublication() {
       try {
@@ -159,6 +165,7 @@ export default function EditPublication() {
         setTitle(res.data.title);
         setContent(res.data.content);
         setInitialBlocks(htmlToBlocks(res.data.content));
+        setCategoryId(res.data.category ? String(res.data.category.id) : "");
       } catch {
         setError("No se pudo cargar la publicación.");
       } finally {
@@ -203,6 +210,7 @@ export default function EditPublication() {
         title,
         content: finalHtml,
         type: "ARTICLE",
+        category_id: categoryId ? Number(categoryId) : null,
       });
 
       navigate(`/publications/${id}`);
@@ -228,6 +236,22 @@ export default function EditPublication() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+      </div>
+
+      <div className="card" style={{ marginBottom: "1rem" }}>
+        <label>Categoría</label>
+        <select
+          className="select"
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+        >
+          <option value="">Sin categoría</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Editor */}

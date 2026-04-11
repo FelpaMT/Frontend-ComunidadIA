@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import api from "../api/client";
 import HtmlEditor from "../components/HtmlEditor";
 import StatusMessage from "../components/StatusMessage";
@@ -7,10 +7,16 @@ import { useNavigate } from "react-router-dom";
 export default function CreatePublication() {
   const [title, setTitle] = useState("");
   const [htmlContent, setHtmlContent] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [categories, setCategories] = useState([]);
   const [status, setStatus] = useState({ type: "info", message: "" });
   const [loading, setLoading] = useState(false);
   const editorRef = useRef();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api.get("/api/publication/categories").then((res) => setCategories(res.data));
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -29,6 +35,7 @@ export default function CreatePublication() {
         title,
         publication_type: "ARTICLE",
         content: "temporal",
+        ...(categoryId && { category_id: Number(categoryId) }),
       });
 
       const publicationId = createRes.data.id;
@@ -64,6 +71,7 @@ export default function CreatePublication() {
         title,
         content: finalHtml,
         type: "ARTICLE",
+        ...(categoryId && { category_id: Number(categoryId) }),
       });
 
       navigate(`/publications/${publicationId}`);
@@ -155,6 +163,22 @@ export default function CreatePublication() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Título…"
             />
+          </div>
+
+          <div>
+            <label>Categoría</label>
+            <select
+              className="select"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+            >
+              <option value="">Sin categoría</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>

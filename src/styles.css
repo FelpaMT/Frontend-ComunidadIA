@@ -796,6 +796,23 @@ body {
   font-weight: 400;
 }
 
+/* =============================
+   BADGE DE CATEGORÍA
+   ============================= */
+
+.publication-category {
+  display: inline-block;
+  background: #fff0f0;
+  color: var(--primary-dark);
+  border: 1px solid #ffd0d0;
+  border-radius: 20px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
 /* Evita bold sintético en Windows */
 * {
   font-synthesis: none;

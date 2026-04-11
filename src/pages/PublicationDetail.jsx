@@ -95,12 +95,15 @@ export default function PublicationDetail() {
         <div className="article-meta">
           <span>{created.toLocaleDateString()}</span>
           <span>·</span>
-          <span 
+          <span
             className="article-author"
             onClick={() => navigate(`/users/${publication.writer.id}`)}
           >
             {publication.writer.nick_name}
           </span>
+          {publication.category && (
+            <span className="publication-category">{publication.category.name}</span>
+          )}
         </div>
 
         <h1 className="article-title">{publication.title}</h1>
