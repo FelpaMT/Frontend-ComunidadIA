@@ -797,6 +797,64 @@ body {
 }
 
 /* =============================
+   QUILL EDITOR
+   ============================= */
+
+.quill-wrapper {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.quill-wrapper .ql-toolbar {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  border-color: var(--border);
+  background: #fafafa;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.quill-wrapper .ql-container {
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  border-color: var(--border);
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.95rem;
+}
+
+.quill-wrapper .ql-editor {
+  min-height: 320px;
+  line-height: 1.7;
+  color: var(--text);
+  padding: 1rem 1.2rem;
+}
+
+.quill-wrapper .ql-editor.ql-blank::before {
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.quill-wrapper .ql-toolbar button:hover,
+.quill-wrapper .ql-toolbar button.ql-active {
+  color: var(--primary);
+}
+
+.quill-wrapper .ql-toolbar button:hover .ql-stroke,
+.quill-wrapper .ql-toolbar button.ql-active .ql-stroke {
+  stroke: var(--primary);
+}
+
+.quill-wrapper .ql-toolbar button:hover .ql-fill,
+.quill-wrapper .ql-toolbar button.ql-active .ql-fill {
+  fill: var(--primary);
+}
+
+.quill-wrapper .ql-editor img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+}
+
+/* =============================
    BADGE DE CATEGORÍA
    ============================= */
 
