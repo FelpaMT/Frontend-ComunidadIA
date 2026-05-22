@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Base URL del backend
-const BASE_URL = "https://comunidadia-backend.pedagogiavirtual.com"; // :contentReference[oaicite:1]{index=1}
+const BASE_URL = "http://localhost:8000"; // :contentReference[oaicite:1]{index=1}
 
 // Helpers de cookies simples (no HttpOnly, porque estamos en frontend puro)
 const COOKIE_ACCESS = "comunidadia_access";

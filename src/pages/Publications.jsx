@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Search, X } from "lucide-react";
 import api from "../api/client";
 import PublicationCard from "../components/PublicationCard";
 import Pagination from "../components/Pagination";
 import StatusMessage from "../components/StatusMessage";
-import { useNavigate } from "react-router-dom";
 
 const LIMIT = 10;
+
+const inputClass =
+  "w-full px-3 py-2 border border-mariner-200 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-900 text-mariner-950 dark:text-zinc-50 placeholder:text-mariner-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-mariner-500 focus:border-transparent text-sm transition-colors";
 
 export default function Publications() {
   const [publications, setPublications] = useState([]);
@@ -45,19 +49,14 @@ export default function Publications() {
           params: { limit: LIMIT, offset, category_id: categoryId },
         });
       } else {
-        res = await api.get("/api/publication", {
-          params: { limit: LIMIT, offset },
-        });
+        res = await api.get("/api/publication", { params: { limit: LIMIT, offset } });
       }
       const data = res.data || [];
       setPublications(data);
       setNoMore(data.length < LIMIT);
       setPage(newPage);
     } catch {
-      setStatus({
-        type: "error",
-        message: "Error cargando publicaciones.",
-      });
+      setStatus({ type: "error", message: "Error cargando publicaciones." });
     } finally {
       setLoading(false);
     }
@@ -72,96 +71,117 @@ export default function Publications() {
     fetchPublications(1, true);
   }
 
+  function handleClear() {
+    setNicknamePart("");
+    setTitlePart("");
+    setCategoryId("");
+    fetchPublications(1, false);
+  }
+
   function handlePageChange(newPage) {
     if (newPage < 1) return;
     fetchPublications(newPage, !!(nicknamePart || titlePart || categoryId));
   }
 
   return (
-    <div className="grid" style={{ gap: "1.5rem" }}>
-      <div className="card">
-        <h2 className="page-title">Publicaciones</h2>
-        <p className="page-subtitle">
+    <div className="flex flex-col gap-4">
+      {/* Search card */}
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm p-5">
+        <h2 className="text-xl font-bold text-mariner-950 dark:text-zinc-50 mb-1">
+          Publicaciones
+        </h2>
+        <p className="text-sm text-mariner-500 dark:text-zinc-400 mb-4">
           Explora todos los artículos publicados en ComunidadIA.
         </p>
-        <form
-          className="grid grid-2"
-          style={{ gap: "0.75rem", marginTop: "1rem" }}
-          onSubmit={handleSearch}
-        >
-          <div>
-            <label>Búsqueda por nick_name</label>
-            <input
-              className="input"
-              value={nicknamePart}
-              onChange={(e) => setNicknamePart(e.target.value)}
-              placeholder="Parte del nick del autor"
-            />
+
+        <form onSubmit={handleSearch} className="flex flex-col gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-mariner-700 dark:text-zinc-400 mb-1">
+                Autor (nick)
+              </label>
+              <input
+                className={inputClass}
+                value={nicknamePart}
+                onChange={(e) => setNicknamePart(e.target.value)}
+                placeholder="Buscar por autor..."
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-mariner-700 dark:text-zinc-400 mb-1">
+                Título
+              </label>
+              <input
+                className={inputClass}
+                value={titlePart}
+                onChange={(e) => setTitlePart(e.target.value)}
+                placeholder="Buscar por título..."
+              />
+            </div>
           </div>
-          <div>
-            <label>Búsqueda por título</label>
-            <input
-              className="input"
-              value={titlePart}
-              onChange={(e) => setTitlePart(e.target.value)}
-              placeholder="Parte del título"
-            />
-          </div>
-          <div>
-            <label>Filtrar por categoría</label>
-            <select
-              className="select"
-              value={categoryId}
-              onChange={(e) => setCategoryId(e.target.value)}
-            >
-              <option value="">Todas las categorías</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div style={{ gridColumn: "1 / -1" }}>
-            <button className="btn btn-primary" type="submit">
-              🔍 Buscar
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              style={{ marginLeft: "0.5rem" }}
-              onClick={() => {
-                setNicknamePart("");
-                setTitlePart("");
-                setCategoryId("");
-                fetchPublications(1, false);
-              }}
-            >
-              Limpiar
-            </button>
+
+          <div className="flex gap-3 items-end">
+            <div className="flex-1">
+              <label className="block text-xs font-medium text-mariner-700 dark:text-zinc-400 mb-1">
+                Categoría
+              </label>
+              <select
+                className={inputClass}
+                value={categoryId}
+                onChange={(e) => setCategoryId(e.target.value)}
+              >
+                <option value="">Todas las categorías</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex gap-2 pb-0.5">
+              <button
+                type="submit"
+                className="flex items-center gap-1.5 px-4 py-2 bg-mariner-600 hover:bg-mariner-700 dark:bg-mariner-500 dark:hover:bg-mariner-400 text-white text-sm font-medium rounded-lg transition-colors"
+              >
+                <Search size={14} />
+                Buscar
+              </button>
+              <button
+                type="button"
+                onClick={handleClear}
+                className="flex items-center gap-1.5 px-3 py-2 border border-mariner-200 dark:border-zinc-700 text-mariner-600 dark:text-zinc-400 hover:bg-mariner-50 dark:hover:bg-zinc-800 text-sm font-medium rounded-lg transition-colors"
+              >
+                <X size={14} />
+              </button>
+            </div>
           </div>
         </form>
       </div>
 
-      <div className="card">
-        <StatusMessage type={status.type} message={status.message} />
-        {loading ? (
-          <div>Cargando publicaciones...</div>
-        ) : publications.length === 0 ? (
-          <div style={{ color: "#9ca3af", fontSize: "0.9rem" }}>
-            No se encontraron publicaciones.
-          </div>
-        ) : (
-          <div className="grid" style={{ gap: "0.8rem" }}>
-            {publications.map((p) => (
+      {/* Results card */}
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm">
+        <div className="p-3">
+          <StatusMessage type={status.type} message={status.message} />
+
+          {loading ? (
+            <p className="text-sm text-mariner-400 dark:text-zinc-500 px-3 py-4">
+              Cargando publicaciones...
+            </p>
+          ) : publications.length === 0 ? (
+            <p className="text-sm text-mariner-400 dark:text-zinc-500 px-3 py-4">
+              No se encontraron publicaciones.
+            </p>
+          ) : (
+            publications.map((p) => (
               <PublicationCard
                 key={p.id}
                 publication={p}
                 onClick={() => navigate(`/publications/${p.id}`)}
               />
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
+
         <Pagination
           page={page}
           onChange={handlePageChange}

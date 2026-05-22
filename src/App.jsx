@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
@@ -19,57 +19,42 @@ import EditPublication from "./pages/EditPublication";
 import SidebarMyFollowers from "./components/SidebarMyFollowers";
 import SidebarMyPublications from "./components/SidebarMyPublications";
 
-/* ============================================
-   Redirección según autenticación
-   ============================================ */
 function RootRedirect() {
   const { isAuthenticated } = useAuth();
   return <Navigate to={isAuthenticated ? "/home" : "/inicio"} replace />;
 }
 
-/* ============================================
-   LAYOUT AL ESTILO NEWSBREAK
-   ============================================ */
 function LayoutWithNav({ children }) {
   const location = useLocation();
-
-  // Rutas donde no deben mostrarse navbar y sidebar
   const hiddenRoutes = ["/inicio", "/signin", "/signup"];
+  const isHidden = hiddenRoutes.includes(location.pathname);
 
-  const hideNav = hiddenRoutes.includes(location.pathname);
-  const hideSidebar = hiddenRoutes.includes(location.pathname);
+  if (isHidden) {
+    return (
+      <div className="min-h-screen bg-mariner-50 dark:bg-zinc-950 font-sans">
+        {children}
+      </div>
+    );
+  }
 
   return (
-    <div className="app-shell">
-      {/* NAVBAR */}
-      {!hideNav && <Navbar />}
-
-      <div className="newsbreak-shell">
-        <div className="newsbreak-container">
-
-          {/* MAIN CONTENT */}
-          <main className="newsbreak-main">
+    <div className="min-h-screen bg-mariner-50 dark:bg-zinc-950 font-sans">
+      <Navbar />
+      <div className="pb-10 pt-5">
+        <div className="max-w-5xl mx-auto px-4 flex gap-6 items-start">
+          <main className="flex-1 min-w-0 flex flex-col gap-4">
             {children}
           </main>
-
-          {/* SIDEBAR (oculto en inicio/signin/signup) */}
-          {!hideSidebar && (
-            <aside className="newsbreak-sidebar">
-              <SidebarMyFollowers />
-              <SidebarMyPublications />
-            </aside>
-          )}
-
+          <aside className="hidden lg:flex w-72 flex-none flex-col gap-4 sticky top-20">
+            <SidebarMyFollowers />
+            <SidebarMyPublications />
+          </aside>
         </div>
       </div>
     </div>
   );
 }
 
-
-/* ============================================
-   APP PRINCIPAL (NO TOCADA)
-   ============================================ */
 export default function App() {
   return (
     <LayoutWithNav>
@@ -79,87 +64,15 @@ export default function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
 
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/subscriptions"
-          element={
-            <ProtectedRoute>
-              <Subscriptions />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/publications"
-          element={
-            <ProtectedRoute>
-              <Publications />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/publications/:id"
-          element={
-            <ProtectedRoute>
-              <PublicationDetail />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/users"
-          element={
-            <ProtectedRoute>
-              <Users />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/users/:id"
-          element={
-            <ProtectedRoute>
-              <UserDetail />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/create-publication"
-          element={
-            <ProtectedRoute>
-              <CreatePublication />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/publications/:id/edit"
-          element={
-            <ProtectedRoute>
-              <EditPublication />
-            </ProtectedRoute>
-          }
-        />
-
+        <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/subscriptions" element={<ProtectedRoute><Subscriptions /></ProtectedRoute>} />
+        <Route path="/publications" element={<ProtectedRoute><Publications /></ProtectedRoute>} />
+        <Route path="/publications/:id" element={<ProtectedRoute><PublicationDetail /></ProtectedRoute>} />
+        <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+        <Route path="/users/:id" element={<ProtectedRoute><UserDetail /></ProtectedRoute>} />
+        <Route path="/create-publication" element={<ProtectedRoute><CreatePublication /></ProtectedRoute>} />
+        <Route path="/publications/:id/edit" element={<ProtectedRoute><EditPublication /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </LayoutWithNav>
