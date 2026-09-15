@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import StatusMessage from "../components/StatusMessage";
@@ -18,13 +18,19 @@ export default function Signin() {
       await login(form.email, form.password);
       navigate("/home");
     } catch (err) {
+      const data = err.response?.data;
       const code = err.response?.status;
+      if (code === 403 && data?.requires_verification) {
+        navigate(`/verify-email?email=${encodeURIComponent(form.email)}`);
+        return;
+      }
       setStatus({
         type: "error",
         message:
-          code === 401 || code === 400
+          data?.detail ||
+          (code === 401 || code === 400
             ? "Credenciales incorrectas o usuario no válido."
-            : "Error inesperado al iniciar sesión.",
+            : "Error inesperado al iniciar sesión."),
       });
     } finally {
       setLoading(false);
@@ -61,9 +67,17 @@ export default function Signin() {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-mariner-700 dark:text-zinc-400 mb-1">
-              Contraseña
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-medium text-mariner-700 dark:text-zinc-400">
+                Contraseña
+              </label>
+              <Link
+                to="/forgot-password"
+                className="text-xs text-mariner-600 dark:text-zinc-400 hover:underline"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
             <input
               className={inputClass}
               type="password"

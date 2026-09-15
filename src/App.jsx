@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
@@ -7,6 +7,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Inicio from "./pages/Inicio";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import VerifyEmail from "./pages/VerifyEmail";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Subscriptions from "./pages/Subscriptions";
@@ -26,7 +29,14 @@ function RootRedirect() {
 
 function LayoutWithNav({ children }) {
   const location = useLocation();
-  const hiddenRoutes = ["/inicio", "/signin", "/signup"];
+  const hiddenRoutes = [
+    "/inicio",
+    "/signin",
+    "/signup",
+    "/forgot-password",
+    "/reset-password",
+    "/verify-email",
+  ];
   const isHidden = hiddenRoutes.includes(location.pathname);
 
   if (isHidden) {
@@ -63,6 +73,9 @@ export default function App() {
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
 
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

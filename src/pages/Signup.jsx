@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import StatusMessage from "../components/StatusMessage";
@@ -16,16 +16,16 @@ export default function Signup() {
     setLoading(true);
     try {
       await signup(form);
-      setStatus({ type: "success", message: "Registro exitoso. Ahora puedes iniciar sesión." });
-      navigate("/signin");
+      navigate(`/verify-email?email=${encodeURIComponent(form.email)}`);
     } catch (err) {
       const code = err.response?.status;
       setStatus({
         type: "error",
         message:
-          code === 400 || code === 409
+          err.response?.data?.detail ||
+          (code === 400 || code === 409
             ? "Datos inválidos o email ya registrado."
-            : "Error inesperado al registrarse.",
+            : "Error inesperado al registrarse."),
       });
     } finally {
       setLoading(false);

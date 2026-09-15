@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlusCircle, BookOpen, Users } from "lucide-react";
 import api from "../api/client";
@@ -18,19 +18,10 @@ export default function Home() {
     async function fetchData() {
       setLoading(true);
       try {
-        const resFollowing = await api.get("/api/subscription/me/following", {
-          params: { limit: 50, offset: 0 },
+        const res = await api.get("/api/publication/feed", {
+          params: { limit: 20, offset: 0 },
         });
-        const following = resFollowing.data || [];
-        const allPubs = [];
-        for (const f of following) {
-          const resPubs = await api.get(`/api/publication/by-user/${f.user.id}`, {
-            params: { limit: 10, offset: 0 },
-          });
-          (resPubs.data || []).forEach((p) => allPubs.push(p));
-        }
-        allPubs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        setPublications(allPubs);
+        setPublications(res.data || []);
       } catch (err) {
         const code = err.response?.status;
         setStatus({

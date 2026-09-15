@@ -1,6 +1,7 @@
-﻿import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Send, Bot, Sparkles } from "lucide-react";
 import { marked } from "marked";
+import DOMPurify from "dompurify";
 import api from "../api/client";
 
 marked.setOptions({ breaks: true });
@@ -101,7 +102,7 @@ export default function ChatBot({ title = "Asistente IA", placeholder, contextHt
               {m.role === "user" ? (
                 m.content
               ) : (
-                <span dangerouslySetInnerHTML={{ __html: marked.parse(m.content) }} />
+                <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(m.content)) }} />
               )}
             </div>
           </div>

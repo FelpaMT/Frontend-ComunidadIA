@@ -1,10 +1,11 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Pencil } from "lucide-react";
 import api from "../api/client";
 import StatusMessage from "../components/StatusMessage";
 import { useAuth } from "../context/AuthContext";
 import ChatBot from "../components/ChatBot";
+import DOMPurify from "dompurify";
 
 export default function PublicationDetail() {
   const { id } = useParams();
@@ -134,7 +135,7 @@ export default function PublicationDetail() {
 
           <article
             className="html-viewer text-mariner-800 dark:text-zinc-200 text-sm leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: publication.content || "" }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(publication.content || "") }}
           />
         </div>
       </div>
