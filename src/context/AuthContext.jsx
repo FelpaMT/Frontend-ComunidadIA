@@ -9,12 +9,11 @@ import api, {
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null); // {id, name, email, role, nick_name}
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const isAuthenticated = !!getRefreshToken(); // usamos refresh como indicador simple
+  const isAuthenticated = !!getRefreshToken() || !!getAccessToken();
 
-  // Intento opcional de obtener perfil si ya hay token
   useEffect(() => {
     async function fetchMe() {
       if (!isAuthenticated) {
@@ -30,9 +29,9 @@ export function AuthProvider({ children }) {
           email: res.data.user.email,
           role: res.data.user.role,
         });
-      } catch {
-        // Si falla, consideramos no autenticado
+      } catch (err) {
         clearTokenCookies();
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -45,7 +44,6 @@ export function AuthProvider({ children }) {
     const { access_token, refresh_token } = res.data;
     setTokenCookies(access_token, refresh_token);
 
-    // Traer info de usuario
     const me = await api.get("/api/educator/me", {
       headers: { Authorization: `Bearer ${access_token}` },
     });
@@ -57,17 +55,30 @@ export function AuthProvider({ children }) {
       email: me.data.user.email,
       role: me.data.user.role,
     });
+    return me.data;
   }
 
-  async function signup({ name, email, password, nick_name }) {
+  async function register({ name, email, password, nick_name, role = "EDUCATOR" }) {
     const body = {
       name,
       email,
       password,
-      role: "EDUCATOR", // SIEMPRE EDUCATOR
+      role,
       nick_name,
     };
-    await api.post("/api/auth/signup", body);
+    return await api.post("/api/auth/signup", body);
+  }
+
+  async function verifyEmail({ email, code, token }) {
+    return await api.post("/api/auth/verify-email", { email, code, token });
+  }
+
+  async function forgotPassword(email) {
+    return await api.post("/api/auth/forgot-password", { email });
+  }
+
+  async function resetPassword({ token, new_password }) {
+    return await api.post("/api/auth/reset-password", { token, new_password });
   }
 
   async function logout() {
@@ -77,7 +88,7 @@ export function AuthProvider({ children }) {
         await api.post("/api/auth/logout", { refresh_token: refresh });
       }
     } catch {
-      // ignorar errores de logout
+      // Ignorar errores durante el logout
     } finally {
       clearTokenCookies();
       setUser(null);
@@ -89,7 +100,11 @@ export function AuthProvider({ children }) {
     isAuthenticated: !!user || !!getRefreshToken(),
     loading,
     login,
-    signup,
+    register,
+    signup: register,
+    verifyEmail,
+    forgotPassword,
+    resetPassword,
     logout,
   };
 

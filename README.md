@@ -1,40 +1,35 @@
-# 🚀 React + Vite Starter
+# 🎓 Comunidad IA - Aplicación Web Frontend
 
-Este proyecto fue creado con **Vite** y **React**, ofreciendo un entorno de desarrollo rápido, modular y moderno.  
-A continuación encontrarás las instrucciones para instalar, correr y construir la aplicación.
+Interfaz de usuario para **Comunidad IA**, una plataforma educativa interactiva diseñada para educadores donde pueden compartir conocimientos, explorar publicaciones y conversar con un Asistente Virtual Pedagógico.
 
----
+## ✨ Características
 
-## 📦 Requisitos previos
+- **Diseño Moderno e Intuitivo**: Interfaz construida con React y Tailwind CSS, con soporte completo para modo claro y modo oscuro.
+- **Red y Perfiles de Educadores**: Explora docentes de la comunidad, revisa perfiles y sigue a tus pares.
+- **Feed de Publicaciones y Foros**: Consulta artículos educativos, participa en foros, sube imágenes y deja comentarios.
+- **Asistente Virtual Integrado**: Botón flotante interactivo para resolver consultas didácticas con contexto dinámico.
 
-Asegúrate de tener instalado:
+## 🛠️ Tecnologías
 
-- **Node.js** (v18 o superior recomendado) → https://nodejs.org/
-- **npm** o **yarn** o **pnpm** (el que prefieras)
+- **React + Vite**
+- **Tailwind CSS + Lucide React**
+- **Axios** (Cliente HTTP centralizado)
+- **Marked + DOMPurify** (Renderizado seguro de contenido)
 
-Puedes verificar tu versión con:
+## 🚀 Instalación y Ejecución
 
-```bash
-node -v
-npm -v
-```
+1. **Instalar dependencias**:
+   ```bash
+   npm install
+   ```
 
-## instalación de dependencias
-```
-npm install
-```
+2. **Iniciar Servidor de Desarrollo**:
+   ```bash
+   npm run dev
+   ```
+   La aplicación se abrirá en `http://localhost:5173`.
 
-## Inicia el servidor de desarrollo
-```
-npm run dev
-```
-
-## La app estará disponible en
-```
-http://localhost:5173
-```
-
-## Genera la versión optimizada para producción
-```
-npm run build
-```
+3. **Construir para Producción**:
+   ```bash
+   npm run build
+   ```

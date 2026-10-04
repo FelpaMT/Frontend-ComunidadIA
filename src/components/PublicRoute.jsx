@@ -2,8 +2,8 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export default function ProtectedRoute({ children, allowedRoles }) {
-  const { user, isAuthenticated, loading } = useAuth();
+export default function PublicRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return (
@@ -13,11 +13,7 @@ export default function ProtectedRoute({ children, allowedRoles }) {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/signin" replace />;
-  }
-
-  if (allowedRoles && user && !allowedRoles.includes(user.role)) {
+  if (isAuthenticated) {
     return <Navigate to="/home" replace />;
   }
 
