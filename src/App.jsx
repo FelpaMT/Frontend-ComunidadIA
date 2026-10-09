@@ -1,25 +1,24 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 
-import Inicio from "./pages/Inicio";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import VerifyEmail from "./pages/VerifyEmail";
-import Home from "./pages/Home";
-import Subscriptions from "./pages/Subscriptions";
-import EducatorsDirectoryView from "./pages/EducatorsDirectoryView";
-import EducatorProfileView from "./pages/EducatorProfileView";
-import EditProfileView from "./pages/EditProfileView";
-
-import PublicationsFeedView from "./pages/PublicationsFeedView";
-import PublicationDetailView from "./pages/PublicationDetailView";
-import PublicationEditorView from "./pages/PublicationEditorView";
+const Inicio = lazy(() => import("./pages/Inicio"));
+const Signin = lazy(() => import("./pages/Signin"));
+const Signup = lazy(() => import("./pages/Signup"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
+const Home = lazy(() => import("./pages/Home"));
+const Subscriptions = lazy(() => import("./pages/Subscriptions"));
+const EducatorsDirectoryView = lazy(() => import("./pages/EducatorsDirectoryView"));
+const EducatorProfileView = lazy(() => import("./pages/EducatorProfileView"));
+const EditProfileView = lazy(() => import("./pages/EditProfileView"));
+const PublicationsFeedView = lazy(() => import("./pages/PublicationsFeedView"));
+const PublicationDetailView = lazy(() => import("./pages/PublicationDetailView"));
+const PublicationEditorView = lazy(() => import("./pages/PublicationEditorView"));
 
 import SidebarMyFollowers from "./components/SidebarMyFollowers";
 import SidebarMyPublications from "./components/SidebarMyPublications";
@@ -72,6 +71,7 @@ export default function App() {
   return (
     <>
       <LayoutWithNav>
+        <Suspense fallback={<div className="p-8 text-center">Cargando...</div>}>
         <Routes>
           {/* Rutas Públicas */}
           <Route path="/" element={<RootRedirect />} />
@@ -98,6 +98,7 @@ export default function App() {
           
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        </Suspense>
       </LayoutWithNav>
       <ChatBot />
     </>

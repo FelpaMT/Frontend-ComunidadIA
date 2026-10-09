@@ -10,6 +10,32 @@ export default function Signup() {
   const [status, setStatus] = useState({ type: "info", message: "" });
   const [loading, setLoading] = useState(false);
 
+  function getSignupError(err) {
+    const data = err.response?.data;
+    if (typeof data?.detail === "string") return data.detail;
+
+    const fieldLabels = {
+      name: "Nombre",
+      nick_name: "Nombre de usuario",
+      email: "Correo electrónico",
+      password: "Contraseña",
+      role: "Tipo de cuenta",
+    };
+    const issues = Object.entries(data || {}).flatMap(([field, messages]) => {
+      const label = fieldLabels[field] || field;
+      const text = (Array.isArray(messages) ? messages : [messages])
+        .filter((message) => typeof message === "string")
+        .join(" ");
+      return text ? [`${label}: ${text}`] : [];
+    });
+
+    if (issues.length) return issues.join(" ");
+    if (err.response?.status === 400 || err.response?.status === 409) {
+      return "Revisa los datos ingresados. El correo y el nombre de usuario deben ser únicos; la contraseña debe tener al menos 12 caracteres y cumplir los requisitos de seguridad.";
+    }
+    return "No se pudo crear la cuenta. Comprueba tu conexión e inténtalo de nuevo.";
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus({ type: "info", message: "" });
@@ -18,14 +44,9 @@ export default function Signup() {
       await signup(form);
       navigate(`/verify-email?email=${encodeURIComponent(form.email)}`);
     } catch (err) {
-      const code = err.response?.status;
       setStatus({
         type: "error",
-        message:
-          err.response?.data?.detail ||
-          (code === 400 || code === 409
-            ? "Datos inválidos o email ya registrado."
-            : "Error inesperado al registrarse."),
+        message: getSignupError(err),
       });
     } finally {
       setLoading(false);
@@ -63,11 +84,23 @@ export default function Signup() {
               <input
                 className={inputClass}
                 type={type}
+                minLength={key === "password" ? 12 : undefined}
+                autoComplete={
+                  key === "name" ? "name" :
+                  key === "nick_name" ? "nickname" :
+                  key === "email" ? "email" :
+                  key === "password" ? "new-password" : undefined
+                }
                 required
                 placeholder={placeholder}
                 value={form[key]}
                 onChange={(e) => setForm({ ...form, [key]: e.target.value })}
               />
+              {key === "password" && (
+                <p className="mt-1 text-[11px] text-mariner-500 dark:text-zinc-400">
+                  Usa al menos 12 caracteres y evita datos personales o contraseñas comunes.
+                </p>
+              )}
             </div>
           ))}
           <button

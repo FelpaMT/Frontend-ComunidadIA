@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import api, {
-  setTokenCookies,
-  clearTokenCookies,
-  getAccessToken,
-  getRefreshToken,
-} from "../api/client";
+import api, { setAccessToken, clearAccessToken, refreshAccessToken } from "../api/client";
 
 const AuthContext = createContext(null);
 
@@ -12,15 +7,10 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const isAuthenticated = !!getRefreshToken() || !!getAccessToken();
-
   useEffect(() => {
     async function fetchMe() {
-      if (!isAuthenticated) {
-        setLoading(false);
-        return;
-      }
       try {
+        await refreshAccessToken();
         const res = await api.get("/api/educator/me");
         setUser({
           id: res.data.id,
@@ -30,19 +20,19 @@ export function AuthProvider({ children }) {
           role: res.data.user.role,
         });
       } catch (err) {
-        clearTokenCookies();
+        clearAccessToken();
         setUser(null);
       } finally {
         setLoading(false);
       }
     }
     fetchMe();
-  }, [isAuthenticated]);
+  }, []);
 
   async function login(email, password) {
     const res = await api.post("/api/auth/login", { email, password });
-    const { access_token, refresh_token } = res.data;
-    setTokenCookies(access_token, refresh_token);
+    const { access_token } = res.data;
+    setAccessToken(access_token);
 
     const me = await api.get("/api/educator/me", {
       headers: { Authorization: `Bearer ${access_token}` },
@@ -70,7 +60,9 @@ export function AuthProvider({ children }) {
   }
 
   async function verifyEmail({ email, code, token }) {
-    return await api.post("/api/auth/verify-email", { email, code, token });
+    const res = await api.post("/api/auth/verify-email", { email, code, token });
+    if (res.data.access_token) setAccessToken(res.data.access_token);
+    return res;
   }
 
   async function forgotPassword(email) {
@@ -83,21 +75,18 @@ export function AuthProvider({ children }) {
 
   async function logout() {
     try {
-      const refresh = getRefreshToken();
-      if (refresh) {
-        await api.post("/api/auth/logout", { refresh_token: refresh });
-      }
+      await api.post("/api/auth/logout", {});
     } catch {
       // Ignorar errores durante el logout
     } finally {
-      clearTokenCookies();
+      clearAccessToken();
       setUser(null);
     }
   }
 
   const value = {
     user,
-    isAuthenticated: !!user || !!getRefreshToken(),
+    isAuthenticated: !!user,
     loading,
     login,
     register,

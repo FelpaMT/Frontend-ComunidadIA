@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { Mail, CheckCircle2, RotateCw } from "lucide-react";
-import api, { setTokenCookies } from "../api/client";
+import api, { setAccessToken } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import StatusMessage from "../components/StatusMessage";
 
@@ -45,9 +45,16 @@ export default function VerifyEmail() {
   }
 
   function completeVerification(data) {
-    if (data.access_token && data.refresh_token) {
-      setTokenCookies(data.access_token, data.refresh_token);
+    if (!data.access_token) {
+      setVerified(true);
+      setStatus({
+        type: "success",
+        message: data.detail || "Tu cuenta ya está verificada. Inicia sesión para continuar.",
+      });
+      setLoading(false);
+      return;
     }
+    setAccessToken(data.access_token);
     setVerified(true);
     setStatus({
       type: "success",

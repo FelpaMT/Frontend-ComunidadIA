@@ -135,8 +135,8 @@ export default function ChatBot() {
       const parsedHtml = marked.parse(rawContent || "");
       const cleanHtml = DOMPurify.sanitize(parsedHtml);
       return { __html: cleanHtml };
-    } catch (e) {
-      return { __html: rawContent };
+    } catch {
+      return { __html: DOMPurify.sanitize(String(rawContent || "")) };
     }
   };
 

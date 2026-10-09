@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { marked } from "marked";
+import DOMPurify from "dompurify";
 
 export default function HtmlEditor({ value, onChange }) {
   const [html, setHtml] = useState(value || "");
@@ -58,7 +58,7 @@ export default function HtmlEditor({ value, onChange }) {
         <h3 style={{ marginBottom: "0.5rem" }}>Vista previa (HTML actual):</h3>
         <div
           className="markdown-body"
-          dangerouslySetInnerHTML={{ __html: html }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }}
         />
       </div>
     </div>
