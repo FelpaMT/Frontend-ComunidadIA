@@ -5,7 +5,6 @@ import api from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import PublicationCard from "../components/PublicationCard";
 import StatusMessage from "../components/StatusMessage";
-import ChatBot from "../components/ChatBot";
 
 export default function Home() {
   const { user } = useAuth();
@@ -39,10 +38,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full min-w-0">
       {/* Welcome card */}
-      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm p-6">
-        <h1 className="text-xl font-bold text-mariner-950 dark:text-zinc-50 mb-1">
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm p-6 min-w-0 overflow-hidden">
+        <h1 className="text-xl font-bold text-mariner-950 dark:text-zinc-50 mb-1 break-words">
           Hola, {user?.nick_name || user?.name || "docente"}
         </h1>
         <p className="text-sm text-mariner-500 dark:text-zinc-400 mb-4">
@@ -73,26 +72,23 @@ export default function Home() {
         </div>
       </div>
 
-      {/* AI Chatbot */}
-      <ChatBot title="Asistente de IA Educativa" />
-
       {/* Feed */}
-      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm">
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm min-w-0 overflow-hidden">
         <div className="px-5 py-4 border-b border-mariner-100 dark:border-zinc-800">
           <h2 className="text-sm font-semibold text-mariner-900 dark:text-zinc-100">
             Publicaciones de docentes que sigues
           </h2>
         </div>
 
-        <div className="p-2">
+        <div className="p-4 flex flex-col gap-3 min-w-0">
           <StatusMessage type={status.type} message={status.message} />
 
           {loading ? (
-            <p className="text-sm text-mariner-400 dark:text-zinc-500 px-3 py-4">
+            <p className="text-sm text-mariner-400 dark:text-zinc-500 px-1 py-2">
               Cargando publicaciones...
             </p>
           ) : publications.length === 0 ? (
-            <p className="text-sm text-mariner-400 dark:text-zinc-500 px-3 py-4">
+            <p className="text-sm text-mariner-400 dark:text-zinc-500 px-1 py-2">
               Aún no hay publicaciones de docentes que sigues.
             </p>
           ) : (

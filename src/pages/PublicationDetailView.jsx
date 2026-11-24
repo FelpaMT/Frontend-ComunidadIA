@@ -111,7 +111,7 @@ export default function PublicationDetailView() {
   const sanitizedContent = DOMPurify.sanitize(publication.content || "");
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-2 space-y-6">
+    <div className="w-full min-w-0 py-1 space-y-6">
       {/* Botón Volver */}
       <button
         onClick={() => navigate(-1)}
@@ -121,32 +121,32 @@ export default function PublicationDetailView() {
       </button>
 
       {/* Artículo / Foro Principal */}
-      <article className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-10 shadow-xs space-y-6">
+      <article className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-10 shadow-xs space-y-6 min-w-0 overflow-hidden">
         {/* Header Badges & Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-mariner-100 dark:border-zinc-800 pb-4">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-mariner-100 dark:border-zinc-800 pb-4 min-w-0">
+          <div className="flex flex-wrap items-center gap-2 min-w-0">
             <span
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold shrink-0 ${
                 isArticle
                   ? "bg-mariner-100 text-mariner-800 dark:bg-mariner-950/60 dark:text-mariner-300 border border-mariner-200 dark:border-mariner-800"
                   : "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800"
               }`}
             >
-              {isArticle ? <FileText className="w-3.5 h-3.5" /> : <MessageSquare className="w-3.5 h-3.5" />}
+              {isArticle ? <FileText className="w-3.5 h-3.5 shrink-0" /> : <MessageSquare className="w-3.5 h-3.5 shrink-0" />}
               <span>{isArticle ? "Artículo" : "Foro de Debate"}</span>
             </span>
 
             {publication.category && (
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-mariner-50 dark:bg-zinc-800 text-mariner-600 dark:text-zinc-400 border border-mariner-100 dark:border-zinc-700">
-                <Folder className="w-3.5 h-3.5 text-mariner-400" />
-                <span>{publication.category.name}</span>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium bg-mariner-50 dark:bg-zinc-800 text-mariner-600 dark:text-zinc-400 border border-mariner-100 dark:border-zinc-700 min-w-0 max-w-full">
+                <Folder className="w-3.5 h-3.5 text-mariner-400 shrink-0" />
+                <span className="truncate">{publication.category.name}</span>
               </span>
             )}
           </div>
 
           {/* Botones de autoría (Editar / Eliminar) */}
           {isAuthor && (
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => navigate(`/publications/${publication.id}/edit`)}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-mariner-50 dark:bg-zinc-800 text-mariner-700 dark:text-zinc-300 hover:bg-mariner-100 dark:hover:bg-zinc-700 transition-colors"
@@ -164,21 +164,21 @@ export default function PublicationDetailView() {
         </div>
 
         {/* Título */}
-        <h1 className="text-2xl md:text-3xl font-extrabold text-mariner-950 dark:text-zinc-50 leading-tight tracking-tight">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-mariner-950 dark:text-zinc-50 leading-tight tracking-tight break-words min-w-0">
           {publication.title}
         </h1>
 
         {/* Info Autor y Fecha */}
-        <div className="flex items-center gap-3 py-2">
+        <div className="flex items-center gap-3 py-2 min-w-0">
           {writerAvatar ? (
-            <img src={writerAvatar} alt={writerName} className="w-10 h-10 rounded-2xl object-cover border border-mariner-100 dark:border-zinc-800" />
+            <img src={writerAvatar} alt={writerName} className="w-10 h-10 rounded-2xl object-cover border border-mariner-100 dark:border-zinc-800 flex-none" />
           ) : (
-            <div className="w-10 h-10 rounded-2xl bg-mariner-600 text-white flex items-center justify-center font-bold text-sm">
+            <div className="w-10 h-10 rounded-2xl bg-mariner-600 text-white flex items-center justify-center font-bold text-sm flex-none">
               {(writer.nick_name || "?").slice(0, 2).toUpperCase()}
             </div>
           )}
-          <div>
-            <p className="text-xs font-bold text-mariner-900 dark:text-zinc-100">{writerName}</p>
+          <div className="min-w-0">
+            <p className="text-xs font-bold text-mariner-900 dark:text-zinc-100 truncate">{writerName}</p>
             <p className="text-[11px] text-mariner-400 dark:text-zinc-500">
               Publicado el {new Date(publication.created_at).toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" })}
             </p>
@@ -187,24 +187,24 @@ export default function PublicationDetailView() {
 
         {/* Cuerpo Sanitizado */}
         <div
-          className="prose dark:prose-invert max-w-none text-sm leading-relaxed text-mariner-900 dark:text-zinc-200 border-t border-b border-mariner-100 dark:border-zinc-800/80 py-6"
+          className="prose dark:prose-invert max-w-none min-w-0 overflow-x-auto break-words text-sm leading-relaxed text-mariner-900 dark:text-zinc-200 border-t border-b border-mariner-100 dark:border-zinc-800/80 py-6"
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
 
         {/* Galería de Imágenes Adjuntas */}
         {publication.images && publication.images.length > 0 && (
-          <div className="space-y-3 pt-2">
+          <div className="space-y-3 pt-2 min-w-0">
             <h4 className="text-xs font-bold text-mariner-700 dark:text-zinc-300 flex items-center gap-1.5">
-              <ImageIcon className="w-4 h-4 text-mariner-500" /> Archivos de Imagen Adjuntos ({publication.images.length})
+              <ImageIcon className="w-4 h-4 text-mariner-500 shrink-0" /> Archivos de Imagen Adjuntos ({publication.images.length})
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 min-w-0">
               {publication.images.map((img) => (
                 <a
                   key={img.id}
                   href={img.absolute_url || img.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative rounded-2xl overflow-hidden border border-mariner-100 dark:border-zinc-800 bg-mariner-50 dark:bg-zinc-800 aspect-video flex items-center justify-center"
+                  className="group relative rounded-2xl overflow-hidden border border-mariner-100 dark:border-zinc-800 bg-mariner-50 dark:bg-zinc-800 aspect-video flex items-center justify-center min-w-0"
                 >
                   <img
                     src={img.absolute_url || img.url}
@@ -224,26 +224,26 @@ export default function PublicationDetailView() {
       </article>
 
       {/* Sección de Debate / Comentarios */}
-      <section className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-8 shadow-xs space-y-6">
+      <section className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-8 shadow-xs space-y-6 min-w-0 overflow-hidden">
         <h3 className="text-lg font-bold text-mariner-950 dark:text-zinc-50 flex items-center gap-2">
-          <MessageCircle className="w-5 h-5 text-mariner-600" /> Debate y Comentarios ({comments.length})
+          <MessageCircle className="w-5 h-5 text-mariner-600 shrink-0" /> Debate y Comentarios ({comments.length})
         </h3>
 
         {statusMsg && (
-          <div className="p-3 bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-xs rounded-xl">
+          <div className="p-3 bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-xs rounded-xl break-words">
             {statusMsg}
           </div>
         )}
 
         {/* Formulario para comentar */}
         {user ? (
-          <form onSubmit={handleAddComment} className="flex gap-2 items-start">
+          <form onSubmit={handleAddComment} className="flex gap-2 items-start min-w-0">
             <textarea
               rows={2}
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder="Escribe tu aporte o pregunta al debate..."
-              className="flex-1 px-4 py-3 bg-mariner-50/50 dark:bg-zinc-800/60 border border-mariner-200 dark:border-zinc-700 rounded-2xl text-xs text-mariner-950 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-mariner-500"
+              className="flex-1 min-w-0 px-4 py-3 bg-mariner-50/50 dark:bg-zinc-800/60 border border-mariner-200 dark:border-zinc-700 rounded-2xl text-xs text-mariner-950 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-mariner-500"
             />
             <button
               type="submit"
@@ -260,7 +260,7 @@ export default function PublicationDetailView() {
         )}
 
         {/* Lista de Comentarios */}
-        <div className="space-y-4 pt-2">
+        <div className="space-y-4 pt-2 min-w-0">
           {comments.length === 0 ? (
             <p className="text-xs text-mariner-400 dark:text-zinc-500 text-center py-6">
               Aún no hay comentarios. ¡Sé el primero en aportar a la discusión!
@@ -275,19 +275,19 @@ export default function PublicationDetailView() {
               return (
                 <div
                   key={c.id}
-                  className="p-4 bg-mariner-50/40 dark:bg-zinc-800/40 border border-mariner-100 dark:border-zinc-800 rounded-2xl space-y-2"
+                  className="p-4 bg-mariner-50/40 dark:bg-zinc-800/40 border border-mariner-100 dark:border-zinc-800 rounded-2xl space-y-2 min-w-0 overflow-hidden"
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+                    <div className="flex items-center gap-2 min-w-0">
                       {commAvatar ? (
-                        <img src={commAvatar} alt={commName} className="w-6 h-6 rounded-full object-cover" />
+                        <img src={commAvatar} alt={commName} className="w-6 h-6 rounded-full object-cover flex-none" />
                       ) : (
-                        <div className="w-6 h-6 rounded-full bg-mariner-600 text-white flex items-center justify-center font-bold text-[10px]">
+                        <div className="w-6 h-6 rounded-full bg-mariner-600 text-white flex items-center justify-center font-bold text-[10px] flex-none">
                           {(commWriter.nick_name || "?").slice(0, 2).toUpperCase()}
                         </div>
                       )}
-                      <span className="text-xs font-bold text-mariner-900 dark:text-zinc-100">{commName}</span>
-                      <span className="text-[10px] text-mariner-400 dark:text-zinc-500">
+                      <span className="text-xs font-bold text-mariner-900 dark:text-zinc-100 truncate">{commName}</span>
+                      <span className="text-[10px] text-mariner-400 dark:text-zinc-500 whitespace-nowrap shrink-0">
                         {new Date(c.created_at).toLocaleDateString("es-CO")}
                       </span>
                     </div>
@@ -295,7 +295,7 @@ export default function PublicationDetailView() {
                     {canDeleteComm && (
                       <button
                         onClick={() => handleDeleteComment(c.id)}
-                        className="text-red-500 hover:text-red-700 p-1 rounded transition-colors"
+                        className="text-red-500 hover:text-red-700 p-1 rounded transition-colors shrink-0"
                         title="Eliminar comentario"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -303,7 +303,7 @@ export default function PublicationDetailView() {
                     )}
                   </div>
 
-                  <p className="text-xs text-mariner-800 dark:text-zinc-200 leading-relaxed pl-8">
+                  <p className="text-xs text-mariner-800 dark:text-zinc-200 leading-relaxed pl-8 break-words">
                     {c.content}
                   </p>
                 </div>

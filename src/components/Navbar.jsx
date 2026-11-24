@@ -76,46 +76,46 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-mariner-100 dark:border-zinc-800 shadow-sm">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-2 sm:gap-4 min-w-0">
 
         {/* Logo + brand */}
         <button
           onClick={() => navigate("/home")}
-          className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2.5 hover:opacity-80 transition-opacity min-w-0 shrink-0"
         >
           <img
             src="/logo.png"
             alt="ComunidadIA"
-            className="w-8 h-8 rounded-lg object-cover"
+            className="w-8 h-8 rounded-lg object-cover flex-none"
           />
-          <div className="flex flex-col leading-tight">
-            <span className="text-sm font-bold text-mariner-900 dark:text-zinc-50">
+          <div className="flex flex-col leading-tight text-left min-w-0">
+            <span className="text-sm font-bold text-mariner-900 dark:text-zinc-50 truncate">
               ComunidadIA
             </span>
-            <span className="text-xs text-mariner-400 dark:text-zinc-500">
+            <span className="text-xs text-mariner-400 dark:text-zinc-500 hidden xs:inline truncate">
               IA para docentes
             </span>
           </div>
         </button>
 
         {/* Nav links */}
-        <nav className="hidden sm:flex items-center gap-1">
+        <nav className="flex items-center gap-1 overflow-x-auto min-w-0 py-1">
           <NavLink to="/home" className={linkClass}>Home</NavLink>
           <NavLink to="/publications" className={linkClass}>Publicaciones</NavLink>
           <NavLink to="/users" className={linkClass}>Usuarios</NavLink>
         </nav>
 
         {/* Right: user + theme + logout */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 min-w-0">
           {user && (
-            <span className="hidden md:block text-sm font-medium text-mariner-700 dark:text-zinc-400">
+            <span className="hidden md:block text-sm font-medium text-mariner-700 dark:text-zinc-400 truncate max-w-[150px]">
               {user.nick_name}
             </span>
           )}
           <ThemeDropdown />
           <button
             onClick={handleLogout}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-mariner-600 hover:text-mariner-800 hover:bg-mariner-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-sm font-medium text-mariner-600 hover:text-mariner-800 hover:bg-mariner-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800 transition-colors shrink-0"
           >
             <LogOut size={15} />
             <span className="hidden sm:inline">Salir</span>

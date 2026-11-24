@@ -221,17 +221,17 @@ export default function ChatBot() {
                   )}
 
                   <div
-                    className={`max-w-[82%] p-3.5 rounded-2xl leading-relaxed text-xs shadow-xs ${
+                    className={`max-w-[82%] min-w-0 overflow-hidden break-words p-3.5 rounded-2xl leading-relaxed text-xs shadow-xs ${
                       isUser
                         ? "bg-mariner-600 text-white dark:bg-mariner-600 rounded-tr-xs"
                         : "bg-mariner-50/70 dark:bg-zinc-800/90 text-mariner-950 dark:text-zinc-100 border border-mariner-100/60 dark:border-zinc-700/50 rounded-tl-xs"
                     }`}
                   >
                     {isUser ? (
-                      <p className="whitespace-pre-wrap">{msg.content}</p>
+                      <p className="whitespace-pre-wrap break-words">{msg.content}</p>
                     ) : (
                       <div
-                        className="prose dark:prose-invert prose-xs max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-strong:text-mariner-900 dark:prose-strong:text-white"
+                        className="prose dark:prose-invert prose-xs max-w-none break-words overflow-x-auto prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-strong:text-mariner-900 dark:prose-strong:text-white"
                         dangerouslySetInnerHTML={renderMarkdown(msg.content)}
                       />
                     )}

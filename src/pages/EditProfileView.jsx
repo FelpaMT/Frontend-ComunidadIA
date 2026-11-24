@@ -77,7 +77,7 @@ export default function EditProfileView() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-4">
+    <div className="w-full min-w-0 py-1">
       {/* Botón Volver */}
       <button
         onClick={() => navigate(-1)}
@@ -86,7 +86,7 @@ export default function EditProfileView() {
         <ArrowLeft className="w-4 h-4" /> Volver al perfil
       </button>
 
-      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl shadow-xs overflow-hidden">
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl shadow-xs overflow-hidden min-w-0">
         {/* Header */}
         <div className="px-6 py-5 border-b border-mariner-100 dark:border-zinc-800 bg-mariner-50/50 dark:bg-zinc-900/50 flex items-center justify-between">
           <div>

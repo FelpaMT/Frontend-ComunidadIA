@@ -115,7 +115,7 @@ export default function PublicationEditorView() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-2 space-y-6">
+    <div className="w-full min-w-0 py-1 space-y-6">
       {/* Volver */}
       <button
         onClick={() => navigate(-1)}
@@ -124,8 +124,8 @@ export default function PublicationEditorView() {
         <ArrowLeft className="w-4 h-4" /> Cancelar y volver
       </button>
 
-      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-8 shadow-xs">
-        <h1 className="text-2xl font-extrabold text-mariner-950 dark:text-zinc-50 mb-1 tracking-tight">
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-8 shadow-xs min-w-0 overflow-hidden">
+        <h1 className="text-2xl font-extrabold text-mariner-950 dark:text-zinc-50 mb-1 tracking-tight break-words">
           {isEditing ? "Editar Publicación" : "Crear Nueva Publicación"}
         </h1>
         <p className="text-xs text-mariner-500 dark:text-zinc-400 mb-6">
@@ -134,53 +134,53 @@ export default function PublicationEditorView() {
 
         {feedback.message && (
           <div
-            className={`p-4 rounded-2xl text-xs flex items-center gap-3 mb-6 ${
+            className={`p-4 rounded-2xl text-xs flex items-center gap-3 mb-6 break-words overflow-hidden ${
               feedback.type === "success"
                 ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 border border-emerald-200"
                 : "bg-red-50 text-red-700 dark:bg-red-950/40 border border-red-200"
             }`}
           >
             {feedback.type === "success" ? <CheckCircle2 className="w-5 h-5 flex-none" /> : <AlertCircle className="w-5 h-5 flex-none" />}
-            <span>{feedback.message}</span>
+            <span className="break-words min-w-0">{feedback.message}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 min-w-0">
           {/* Tipo de Publicación */}
-          <div>
+          <div className="min-w-0">
             <label className="block text-xs font-bold text-mariner-900 dark:text-zinc-200 mb-2">
               Tipo de Publicación
             </label>
-            <div className="grid grid-cols-2 gap-3 max-w-md">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
               <button
                 type="button"
                 onClick={() => setPublicationType("ARTICLE")}
-                className={`p-3.5 rounded-2xl border flex items-center gap-3 transition-all text-xs font-bold ${
+                className={`p-3.5 rounded-2xl border flex items-center gap-3 transition-all text-xs font-bold min-w-0 ${
                   publicationType === "ARTICLE"
                     ? "border-mariner-600 bg-mariner-50 text-mariner-900 dark:bg-zinc-800 dark:text-zinc-50 dark:border-mariner-500 shadow-xs"
                     : "border-mariner-200 dark:border-zinc-700 text-mariner-500 dark:text-zinc-400 hover:border-mariner-300"
                 }`}
               >
-                <FileText className="w-5 h-5 text-mariner-600" />
-                <div className="text-left">
+                <FileText className="w-5 h-5 text-mariner-600 shrink-0" />
+                <div className="text-left min-w-0">
                   <div>Artículo</div>
-                  <div className="text-[10px] font-normal opacity-70">Contenido educativo estructurado</div>
+                  <div className="text-[10px] font-normal opacity-70 truncate">Contenido educativo estructurado</div>
                 </div>
               </button>
 
               <button
                 type="button"
                 onClick={() => setPublicationType("FORUM")}
-                className={`p-3.5 rounded-2xl border flex items-center gap-3 transition-all text-xs font-bold ${
+                className={`p-3.5 rounded-2xl border flex items-center gap-3 transition-all text-xs font-bold min-w-0 ${
                   publicationType === "FORUM"
                     ? "border-amber-500 bg-amber-50 text-amber-900 dark:bg-zinc-800 dark:text-zinc-50 dark:border-amber-500 shadow-xs"
                     : "border-mariner-200 dark:border-zinc-700 text-mariner-500 dark:text-zinc-400 hover:border-mariner-300"
                 }`}
               >
-                <MessageSquare className="w-5 h-5 text-amber-500" />
-                <div className="text-left">
+                <MessageSquare className="w-5 h-5 text-amber-500 shrink-0" />
+                <div className="text-left min-w-0">
                   <div>Foro</div>
-                  <div className="text-[10px] font-normal opacity-70">Debate e hilo de discusión</div>
+                  <div className="text-[10px] font-normal opacity-70 truncate">Debate e hilo de discusión</div>
                 </div>
               </button>
             </div>

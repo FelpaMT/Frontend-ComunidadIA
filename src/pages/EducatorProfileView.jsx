@@ -73,7 +73,7 @@ export default function EducatorProfileView() {
   const initials = (educator.nick_name || user.name || "?").slice(0, 2).toUpperCase();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-2 space-y-6">
+    <div className="w-full min-w-0 py-1 space-y-6">
       {/* Botón Navegación */}
       <button
         onClick={() => navigate(-1)}
@@ -83,8 +83,8 @@ export default function EducatorProfileView() {
       </button>
 
       {/* Cabecera del Perfil */}
-      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-8 shadow-xs relative overflow-hidden">
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-3xl p-6 md:p-8 shadow-xs relative overflow-hidden min-w-0">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 min-w-0">
           {/* Avatar */}
           {educator.avatar ? (
             <img
@@ -99,13 +99,13 @@ export default function EducatorProfileView() {
           )}
 
           {/* Información */}
-          <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h1 className="text-2xl font-bold text-mariner-950 dark:text-zinc-50 tracking-tight">
+          <div className="flex-1 min-w-0 w-full">
+            <div className="flex flex-wrap items-center justify-between gap-3 min-w-0">
+              <div className="min-w-0">
+                <h1 className="text-2xl font-bold text-mariner-950 dark:text-zinc-50 tracking-tight break-words">
                   {user.name || educator.nick_name}
                 </h1>
-                <p className="text-sm font-semibold text-mariner-500 dark:text-zinc-400">
+                <p className="text-sm font-semibold text-mariner-500 dark:text-zinc-400 truncate">
                   @{educator.nick_name}
                 </p>
               </div>
@@ -114,46 +114,48 @@ export default function EducatorProfileView() {
               {isOwnProfile ? (
                 <button
                   onClick={() => navigate("/edit-profile")}
-                  className="px-4 py-2 bg-mariner-100 hover:bg-mariner-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-mariner-800 dark:text-zinc-200 rounded-xl text-xs font-bold transition-colors"
+                  className="px-4 py-2 bg-mariner-100 hover:bg-mariner-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-mariner-800 dark:text-zinc-200 rounded-xl text-xs font-bold transition-colors shrink-0"
                 >
                   Editar Perfil
                 </button>
               ) : (
-                <SubscribeButton
-                  educatorId={educator.id}
-                  isFollowing={educator.followed_by_me || educator.is_following}
-                  onToggleSuccess={fetchProfileData}
-                  size="lg"
-                />
+                <div className="shrink-0">
+                  <SubscribeButton
+                    educatorId={educator.id}
+                    isFollowing={educator.followed_by_me || educator.is_following}
+                    onToggleSuccess={fetchProfileData}
+                    size="lg"
+                  />
+                </div>
               )}
             </div>
 
             {/* Metadatos (Especialidad / Institución) */}
-            <div className="mt-3 flex flex-wrap gap-4 text-xs text-mariner-600 dark:text-zinc-400">
+            <div className="mt-3 flex flex-wrap gap-4 text-xs text-mariner-600 dark:text-zinc-400 min-w-0">
               {educator.specialty && (
-                <div className="flex items-center gap-1.5 font-medium">
-                  <Award className="w-4 h-4 text-mariner-600" />
-                  <span>{educator.specialty}</span>
+                <div className="flex items-center gap-1.5 font-medium min-w-0">
+                  <Award className="w-4 h-4 text-mariner-600 shrink-0" />
+                  <span className="break-words">{educator.specialty}</span>
                 </div>
               )}
               {educator.institution && (
-                <div className="flex items-center gap-1.5 font-medium">
-                  <Building className="w-4 h-4 text-mariner-500" />
-                  <span>{educator.institution}</span>
+                <div className="flex items-center gap-1.5 font-medium min-w-0">
+                  <Building className="w-4 h-4 text-mariner-500 shrink-0" />
+                  <span className="break-words">{educator.institution}</span>
                 </div>
               )}
             </div>
 
             {/* Biografía */}
             {educator.bio && (
-              <p className="mt-3 text-xs text-mariner-700 dark:text-zinc-300 leading-relaxed max-w-2xl">
+              <p className="mt-3 text-xs text-mariner-700 dark:text-zinc-300 leading-relaxed max-w-2xl break-words">
                 {educator.bio}
               </p>
             )}
 
             {/* Enlaces Sociales & Métricas */}
-            <div className="mt-4 pt-4 border-t border-mariner-100 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-6 text-sm">
+            <div className="mt-4 pt-4 border-t border-mariner-100 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4 min-w-0">
+              <div className="flex flex-wrap items-center gap-6 text-sm">
                 <button
                   onClick={() => setActiveTab("followers")}
                   className="hover:opacity-80 transition-opacity"
@@ -174,7 +176,7 @@ export default function EducatorProfileView() {
                 </button>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 shrink-0">
                 {educator.website && (
                   <a
                     href={educator.website}
@@ -204,36 +206,36 @@ export default function EducatorProfileView() {
       </div>
 
       {/* Pestañas de Contenido */}
-      <div className="flex border-b border-mariner-100 dark:border-zinc-800 text-sm font-semibold">
+      <div className="flex overflow-x-auto border-b border-mariner-100 dark:border-zinc-800 text-sm font-semibold min-w-0">
         <button
           onClick={() => setActiveTab("publications")}
-          className={`pb-3 px-4 flex items-center gap-2 border-b-2 transition-all ${
+          className={`pb-3 px-4 flex items-center gap-2 border-b-2 transition-all whitespace-nowrap shrink-0 ${
             activeTab === "publications"
               ? "border-mariner-600 text-mariner-600 dark:border-mariner-400 dark:text-mariner-400"
               : "border-transparent text-mariner-400 hover:text-mariner-700 dark:text-zinc-500 dark:hover:text-zinc-300"
           }`}
         >
-          <BookOpen className="w-4 h-4" /> Publicaciones ({(educator.publications || []).length})
+          <BookOpen className="w-4 h-4 shrink-0" /> Publicaciones ({(educator.publications || []).length})
         </button>
         <button
           onClick={() => setActiveTab("followers")}
-          className={`pb-3 px-4 flex items-center gap-2 border-b-2 transition-all ${
+          className={`pb-3 px-4 flex items-center gap-2 border-b-2 transition-all whitespace-nowrap shrink-0 ${
             activeTab === "followers"
               ? "border-mariner-600 text-mariner-600 dark:border-mariner-400 dark:text-mariner-400"
               : "border-transparent text-mariner-400 hover:text-mariner-700 dark:text-zinc-500 dark:hover:text-zinc-300"
           }`}
         >
-          <Users className="w-4 h-4" /> Seguidores ({educator.followers_count || 0})
+          <Users className="w-4 h-4 shrink-0" /> Seguidores ({educator.followers_count || 0})
         </button>
         <button
           onClick={() => setActiveTab("following")}
-          className={`pb-3 px-4 flex items-center gap-2 border-b-2 transition-all ${
+          className={`pb-3 px-4 flex items-center gap-2 border-b-2 transition-all whitespace-nowrap shrink-0 ${
             activeTab === "following"
               ? "border-mariner-600 text-mariner-600 dark:border-mariner-400 dark:text-mariner-400"
               : "border-transparent text-mariner-400 hover:text-mariner-700 dark:text-zinc-500 dark:hover:text-zinc-300"
           }`}
         >
-          <UserCheck className="w-4 h-4" /> Seguidos ({educator.following_count || 0})
+          <UserCheck className="w-4 h-4 shrink-0" /> Seguidos ({educator.following_count || 0})
         </button>
       </div>
 

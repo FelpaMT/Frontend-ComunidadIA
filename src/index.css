@@ -18,6 +18,7 @@
     margin: 0;
     padding: 0;
     min-width: 320px;
+    overflow-x: hidden;
   }
 
   a {
@@ -137,18 +138,47 @@
    HTML VIEWER (article content)
    ============================== */
 
-.html-viewer {
+.html-viewer,
+.prose {
   line-height: 1.7;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .html-viewer p {
   margin-bottom: 0.85rem;
 }
 
-.html-viewer img {
+.html-viewer img,
+.prose img {
   max-width: 100%;
+  height: auto;
   border-radius: 6px;
   margin: 0.5rem 0;
+}
+
+.html-viewer pre,
+.prose pre,
+.chat-markdown pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.html-viewer table,
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.quill-wrapper {
+  max-width: 100%;
+}
+
+.quill-wrapper .ql-editor {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .html-viewer h1,

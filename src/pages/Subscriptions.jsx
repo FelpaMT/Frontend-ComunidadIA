@@ -35,14 +35,14 @@ export default function Subscriptions() {
     const uid = u.id || u.user?.id;
     return (
       <li
-        className="flex items-center gap-3 px-4 py-3 hover:bg-mariner-50 dark:hover:bg-zinc-800 cursor-pointer transition-colors rounded-lg"
+        className="flex items-center gap-3 px-4 py-3 hover:bg-mariner-50 dark:hover:bg-zinc-800 cursor-pointer transition-colors rounded-lg min-w-0"
         onClick={() => navigate(`/users/${uid}`)}
       >
         <div className="w-8 h-8 rounded-full bg-mariner-100 dark:bg-zinc-800 text-mariner-700 dark:text-zinc-200 flex items-center justify-center text-xs font-bold flex-none">
           {initials}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-mariner-900 dark:text-zinc-100">{nick}</p>
+          <p className="text-sm font-medium text-mariner-900 dark:text-zinc-100 truncate">{nick}</p>
           <p className="text-xs text-mariner-500 dark:text-zinc-400 truncate">
             {u.user?.email || ""}
           </p>
@@ -52,8 +52,8 @@ export default function Subscriptions() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm p-6">
+    <div className="flex flex-col gap-4 w-full min-w-0">
+      <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm p-6 min-w-0 overflow-hidden">
         <h2 className="text-xl font-bold text-mariner-950 dark:text-zinc-50 mb-1">
           Suscripciones
         </h2>
@@ -63,9 +63,9 @@ export default function Subscriptions() {
         <StatusMessage type={status.type} message={status.message} />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
         {/* Followers */}
-        <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm">
+        <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm min-w-0 overflow-hidden">
           <div className="px-5 py-4 border-b border-mariner-100 dark:border-zinc-800">
             <h3 className="text-sm font-semibold text-mariner-900 dark:text-zinc-100">
               Me siguen ({followers.length})
@@ -87,7 +87,7 @@ export default function Subscriptions() {
         </div>
 
         {/* Following */}
-        <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm">
+        <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm min-w-0 overflow-hidden">
           <div className="px-5 py-4 border-b border-mariner-100 dark:border-zinc-800">
             <h3 className="text-sm font-semibold text-mariner-900 dark:text-zinc-100">
               Siguiendo ({following.length})

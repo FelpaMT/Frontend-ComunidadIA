@@ -12,11 +12,16 @@ export default function PublicationCard({ publication, onClick }) {
   };
 
   const created = new Date(publication.created_at);
-  const formattedDate = created.toLocaleDateString("es-CO", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+  const formattedDate = Number.isNaN(created.getTime())
+    ? ""
+    : created
+        .toLocaleDateString("es-ES", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })
+        .replace(/\./g, "")
+        .replace(/ de /g, " ");
 
   const writer = publication.writer || {};
   const nick = writer.nick_name || publication.educator?.nick_name || "?";
@@ -28,13 +33,13 @@ export default function PublicationCard({ publication, onClick }) {
   return (
     <div
       onClick={handleClick}
-      className="group bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 hover:border-mariner-300 dark:hover:border-zinc-700 rounded-2xl p-5 transition-all duration-200 shadow-xs hover:shadow-md cursor-pointer flex flex-col justify-between gap-3"
+      className="group w-full min-w-0 overflow-hidden bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 hover:border-mariner-300 dark:hover:border-zinc-700 rounded-2xl p-5 transition-all duration-200 shadow-xs hover:shadow-md cursor-pointer flex flex-col justify-between gap-3"
     >
       {/* Top Header: Tipo, Categoria y Fecha */}
-      <div className="flex items-center justify-between gap-2 text-xs">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1.5 text-xs min-w-0">
+        <div className="flex flex-wrap items-center gap-1.5 min-w-0">
           <span
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${
+            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold shrink-0 ${
               isArticle
                 ? "bg-mariner-100 text-mariner-800 dark:bg-mariner-950/60 dark:text-mariner-300 border border-mariner-200 dark:border-mariner-800"
                 : "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800"
@@ -42,38 +47,38 @@ export default function PublicationCard({ publication, onClick }) {
           >
             {isArticle ? (
               <>
-                <FileText className="w-3 h-3 text-mariner-600 dark:text-mariner-400" />
+                <FileText className="w-3 h-3 text-mariner-600 dark:text-mariner-400 shrink-0" />
                 <span>Artículo</span>
               </>
             ) : (
               <>
-                <MessageSquare className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                <MessageSquare className="w-3 h-3 text-amber-600 dark:text-amber-400 shrink-0" />
                 <span>Foro</span>
               </>
             )}
           </span>
 
           {publication.category && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-mariner-50 dark:bg-zinc-800 text-mariner-600 dark:text-zinc-400 border border-mariner-100 dark:border-zinc-700">
-              <Folder className="w-3 h-3 text-mariner-400" />
-              <span>{publication.category.name}</span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-mariner-50 dark:bg-zinc-800 text-mariner-600 dark:text-zinc-400 border border-mariner-100 dark:border-zinc-700 min-w-0 max-w-[140px]">
+              <Folder className="w-3 h-3 text-mariner-400 shrink-0" />
+              <span className="truncate">{publication.category.name}</span>
             </span>
           )}
         </div>
 
-        <span className="text-xs text-mariner-400 dark:text-zinc-500 font-medium">
+        <span className="text-[11px] text-mariner-400 dark:text-zinc-500 font-medium whitespace-nowrap shrink-0 ml-auto">
           {formattedDate}
         </span>
       </div>
 
       {/* Titulo */}
-      <h3 className="text-base font-bold text-mariner-950 dark:text-zinc-50 group-hover:text-mariner-600 dark:group-hover:text-mariner-400 transition-colors line-clamp-2 leading-snug">
+      <h3 className="text-base font-bold text-mariner-950 dark:text-zinc-50 group-hover:text-mariner-600 dark:group-hover:text-mariner-400 transition-colors line-clamp-2 leading-snug break-words min-w-0">
         {publication.title}
       </h3>
 
       {/* Footer: Autor e Interacciones */}
-      <div className="pt-3 border-t border-mariner-100 dark:border-zinc-800/80 flex items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2 min-w-0">
+      <div className="pt-3 border-t border-mariner-100 dark:border-zinc-800/80 flex flex-wrap items-center justify-between gap-2 text-xs min-w-0">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
           {avatar ? (
             <img
               src={avatar}
@@ -85,12 +90,12 @@ export default function PublicationCard({ publication, onClick }) {
               {initials}
             </div>
           )}
-          <span className="font-semibold text-mariner-700 dark:text-zinc-300 truncate">
+          <span className="font-semibold text-mariner-700 dark:text-zinc-300 truncate min-w-0">
             @{nick}
           </span>
         </div>
 
-        <div className="flex items-center gap-3 text-mariner-500 dark:text-zinc-400 font-medium flex-none">
+        <div className="flex items-center gap-3 text-mariner-500 dark:text-zinc-400 font-medium flex-none shrink-0">
           {publication.images_count > 0 && (
             <span className="flex items-center gap-1">
               <ImageIcon className="w-3.5 h-3.5 text-mariner-400" />

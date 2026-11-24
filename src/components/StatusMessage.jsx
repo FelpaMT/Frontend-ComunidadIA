@@ -9,7 +9,7 @@ const styles = {
 export default function StatusMessage({ type = "info", message }) {
   if (!message) return null;
   return (
-    <div className={`px-3 py-2 rounded-lg text-sm mb-3 ${styles[type] ?? styles.info}`}>
+    <div className={`px-3 py-2 rounded-lg text-sm mb-3 break-words overflow-hidden ${styles[type] ?? styles.info}`}>
       {message}
     </div>
   );

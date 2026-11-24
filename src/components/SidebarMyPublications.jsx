@@ -14,7 +14,7 @@ export default function SidebarMyPublications() {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm p-4">
+    <div className="bg-white dark:bg-zinc-900 border border-mariner-100 dark:border-zinc-800 rounded-xl shadow-sm p-4 min-w-0 overflow-hidden">
       <h3 className="text-sm font-semibold text-mariner-900 dark:text-zinc-100 mb-3">
         Mis publicaciones
       </h3>
@@ -24,14 +24,14 @@ export default function SidebarMyPublications() {
           Aún no has creado publicaciones.
         </p>
       ) : (
-        <ul className="space-y-1">
+        <ul className="space-y-1 min-w-0">
           {pubs.map((p) => (
             <li
               key={p.id}
-              className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg hover:bg-mariner-50 dark:hover:bg-zinc-800 cursor-pointer transition-colors group"
+              className="flex items-center justify-between gap-2 px-2 py-1.5 rounded-lg hover:bg-mariner-50 dark:hover:bg-zinc-800 cursor-pointer transition-colors group min-w-0"
               onClick={() => navigate(`/publications/${p.id}`)}
             >
-              <span className="text-xs font-medium text-mariner-700 dark:text-zinc-400 truncate group-hover:text-mariner-600 dark:group-hover:text-mariner-200">
+              <span className="text-xs font-medium text-mariner-700 dark:text-zinc-400 truncate flex-1 min-w-0 group-hover:text-mariner-600 dark:group-hover:text-mariner-200">
                 {p.title}
               </span>
               <span className="text-xs text-mariner-400 dark:text-zinc-500 whitespace-nowrap flex-none">

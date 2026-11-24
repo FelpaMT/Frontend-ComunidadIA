@@ -43,21 +43,21 @@ function LayoutWithNav({ children }) {
 
   if (isHidden) {
     return (
-      <div className="min-h-screen bg-mariner-50 dark:bg-zinc-950 text-mariner-900 dark:text-zinc-100 font-sans transition-colors duration-200">
+      <div className="min-h-screen overflow-x-hidden bg-mariner-50 dark:bg-zinc-950 text-mariner-900 dark:text-zinc-100 font-sans transition-colors duration-200">
         {children}
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-mariner-50 dark:bg-zinc-950 text-mariner-900 dark:text-zinc-100 font-sans transition-colors duration-200">
+    <div className="min-h-screen overflow-x-hidden bg-mariner-50 dark:bg-zinc-950 text-mariner-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       <Navbar />
       <div className="pb-10 pt-5">
-        <div className="max-w-5xl mx-auto px-4 flex gap-6 items-start">
+        <div className="max-w-6xl mx-auto px-4 flex gap-6 items-start min-w-0">
           <main className="flex-1 min-w-0 flex flex-col gap-4">
             {children}
           </main>
-          <aside className="hidden lg:flex w-72 flex-none flex-col gap-4 sticky top-20">
+          <aside className="hidden lg:flex w-72 flex-none min-w-0 flex-col gap-4 sticky top-20">
             <SidebarMyFollowers />
             <SidebarMyPublications />
           </aside>
